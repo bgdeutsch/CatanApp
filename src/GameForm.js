@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import './Header.css';
-import Games from './Games.js'
-import Header from './Header.js';
 
-class App extends Component {
+class GameForm extends Component {
 
   constructor() {
     super();
@@ -16,12 +13,11 @@ class App extends Component {
   render() {
     let title = this.state.title;
     return (
-      <div>
-        <Header />
-        <Games />
-      </div>
+      <form>
+          
+      </form>
     );
   }
 }
 
-export default App;
+export default GameForm;
