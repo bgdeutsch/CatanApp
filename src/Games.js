@@ -29,9 +29,9 @@ componentDidMount() {
           this.state.games.map((game, index) => {
             return (
               <ul key={index}>
-                <li>{game.gametype_name}</li>
-                <li>{game.name}</li>
-                <li>{game.creation_time.toString()}</li>
+                <li>Game Type: {game.gametype_name}</li>
+                <li>Winner: {game.name}</li>
+                <li>Date: {game.creation_time.toString()}</li>
               </ul>
             );
           })

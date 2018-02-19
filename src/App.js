@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
 import './Header.css';
-import Games from './Games.js'
-import Header from './Header.js';
+import Games from './Games'
+import Header from './Header';
+import GameForm from './features/game-form'
 
 class App extends Component {
 
   constructor() {
     super();
-    this.state = {
-      title: 'Where We Stuck',
-    };
   }
 
   render() {
-    let title = this.state.title;
     return (
       <div>
         <Header />
+        <br />
         <Games />
+        <br />
+        <GameForm />
       </div>
     );
   }
