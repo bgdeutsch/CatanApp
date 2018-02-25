@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
 import axios from 'axios';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
+import crown from './crown.png';
 
 class Games extends Component {
 
@@ -9,6 +10,8 @@ class Games extends Component {
     this.state = {
       games: [],
     };
+
+    this.trimDateTime = this.trimDateTime.bind(this)
   }
 
 componentDidMount() {
@@ -21,18 +24,40 @@ componentDidMount() {
     })
 }
 
+trimDateTime(string) {
+  return string.substring(0, string.indexOf('T'));
+}
+
   render() {
-    console.log(this.state.games);
+
+    const cardTextStyle={
+      fontWeight: 'bold'
+    }
+
+    const cardStyle={
+      margin:'5px'
+    }
+    
+    const flexContainerStyle={
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center'
+    }
+
     return (
-      <div>
+      <div style={flexContainerStyle}>
         {
           this.state.games.map((game, index) => {
             return (
-              <ul key={index}>
-                <li>Game Type: {game.gametype_name}</li>
-                <li>Winner: {game.name}</li>
-                <li>Date: {game.creation_time.toString()}</li>
-              </ul>
+              <Card key={index} style={cardStyle}>
+                <CardHeader 
+                  title={game.gametype_name}
+                  subtitle={this.trimDateTime(game.creation_time.toString())}>
+                </CardHeader>
+                <CardText style={cardTextStyle}>
+                  <span><img src={crown} alt="Winner" /> {game.name}</span>
+                </CardText>
+              </Card>
             );
           })
         }

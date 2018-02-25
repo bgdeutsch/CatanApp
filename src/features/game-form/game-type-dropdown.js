@@ -6,7 +6,10 @@ export default function GameTypeDropdown(props) {
       {
         props.allGameTypes.map(gameType => {
           return (
-            <option key={gameType.gametypeid} value={gameType.gametypeid}>{gameType.gametype_name}</option>
+            <option key={gameType.gametypeid} 
+                    value={gameType.gametypeid}>
+              {gameType.gametype_name}
+            </option>
           );
         })
       }

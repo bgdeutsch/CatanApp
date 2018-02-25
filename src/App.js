@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import './Header.css';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Games from './Games'
 import Header from './Header';
 import GameForm from './features/game-form'
@@ -13,13 +14,13 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <MuiThemeProvider>
         <Header />
         <br />
         <Games />
         <br />
         <GameForm />
-      </div>
+      </MuiThemeProvider>
     );
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 import ParticipantForm from '../participant-form'
 import GameTypeDropdown from './game-type-dropdown'
 import axios from 'axios';
@@ -11,8 +12,9 @@ export default class GameForm extends Component {
       selectedGameTypeId: -1,
       allGameTypes: [],
     };
-    this.handleGameTypeChange = this.handleGameTypeChange.bind(this)
-    this.addGame = this.addGame.bind(this)
+    
+    this.handleGameTypeChange = this.handleGameTypeChange.bind(this);
+    this.initGame = this.initGame.bind(this);
   }
 
   componentDidMount() {
@@ -22,6 +24,7 @@ export default class GameForm extends Component {
         allGameTypes: results.data,
         selectedGameTypeId: results.data[0].gametypeid,
       })
+      console.log('When mounting the selected type id is..' + this.state.selectedGameTypeId);
     })
     .catch(err => {
       console.log(err);
@@ -32,14 +35,15 @@ export default class GameForm extends Component {
     this.setState({selectedGameTypeId: event.target.value});
   }
 
-  addGame(event) {
+  initGame(event) {
     event.preventDefault();
     let gameTypeId = this.state.selectedGameTypeId;
-    axios.post('http://localhost:3000/api/addGame/', {
+
+    axios.post('http://localhost:3000/api/initGame/', {
       gametypeid: gameTypeId
     })
     .then(results => {
-      console.log('successful post');
+      console.log('successfully initialized game!');
     })
     .catch(err => {
       console.log(err);
@@ -49,16 +53,19 @@ export default class GameForm extends Component {
   render() {
     return (
       <div className="center">
+        <h3 className="text-center">New Game</h3>
         <form ref="gameForm">
-          <label htmlFor="gametypeid">Choose Game Type:</label> 
+          <label htmlFor="selectedGameTypeId" className="label-text">Choose Game Type:</label>
+          <br /> 
           <GameTypeDropdown
             handleChange={this.handleGameTypeChange}
             allGameTypes={this.state.allGameTypes}
           />
-          <button onClick={this.addGame}>Add Game</button>
+          <RaisedButton label="Continue" onClick={this.initGame} />
         </form>
+        <br />
         <ParticipantForm />
-
+        <br /> 
       </div>
     );
   }
