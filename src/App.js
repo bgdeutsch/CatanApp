@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import './App.css';
 import './Header.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Games from './Games'
+import Games from './Games';
 import Header from './Header';
-import GameForm from './features/game-form'
+import GameForm from './features/game-form';
+import ParticipantForm from './features/participant-form';
+import {
+    HashRouter as Router,
+    Route,
+    Link
+} from 'react-router-dom';
 
 class App extends Component {
 
@@ -19,7 +25,12 @@ class App extends Component {
         <br />
         <Games />
         <br />
-        <GameForm />
+        <Router>
+          <div className="center">
+            <Route path="/" component={GameForm} />
+            <Route path="/addPlayer" component={ParticipantForm} />
+          </div>
+        </Router>
       </MuiThemeProvider>
     );
   }

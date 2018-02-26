@@ -4,6 +4,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
+import { HashRouter as Router, Redirect } from 'react-router-dom';
 
 export default class ParticipantForm extends Component {
 
@@ -14,14 +15,13 @@ export default class ParticipantForm extends Component {
 			allPlayers: [],
 			placementOrder: -1,
 			placementOrderArray: [1, 2, 3, 4, 5, 6],
-			open: false
+			open: false,
+			redirect: false
 		};
 		
 		this.handlePlayerChange = this.handlePlayerChange.bind(this);
 		this.handlePlacementOrderChange = this.handlePlacementOrderChange.bind(this);
 		this.addParticipant = this.addParticipant.bind(this);
-		this.handleOpen = this.handleOpen.bind(this);
-		this.handleClose = this.handleClose.bind(this);
 	}
 
 	componentDidMount() {
@@ -30,6 +30,7 @@ export default class ParticipantForm extends Component {
       this.setState({
         allPlayers: results.data,
         selectedPlayerId: results.data[0].playerid,
+				placementOrder: 1
       })
     })
     .catch(err => {
@@ -46,14 +47,6 @@ export default class ParticipantForm extends Component {
 		console.log(event.target.value);
 	}
 
-	handleOpen() {
-		this.setState({open: true})
-	}
-
-	handleClose() {
-		this.setState({open: false})
-	}
-
 	addParticipant(event) {
 		event.preventDefault();
 		let playerID = this.state.selectedPlayerId;
@@ -65,7 +58,6 @@ export default class ParticipantForm extends Component {
     })
     .then(results => {
       console.log('successfully added player!');
-			this.handleClose();
     })
     .catch(err => {
       console.log(err);
@@ -73,33 +65,16 @@ export default class ParticipantForm extends Component {
 	}
  
 	render() {
-		const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={this.handleClose}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.addParticipant}
-      />,
-    ];
-
+		if (this.state.redirect) {
+      return (
+        <Redirect to={{
+          pathname: "/",
+          state: { success: this.state.redirect }
+        }} />
+      )
+		}
 		return (
 			<div className="text-center">
-				<RaisedButton label="Add Player" onClick={this.handleOpen} />
-
-				<Dialog
-          title="Add Player"
-          actions={actions}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-					className="text-center"
-        >
-
 					<form ref="participantForm" className="text-center">
 						<label htmlFor="playerID">Choose Player:</label> 
 						<PlayerDropdown
@@ -121,8 +96,14 @@ export default class ParticipantForm extends Component {
 
 						<br />
 						<br />
+						<RaisedButton label="Add Player" 
+													onClick={this.addParticipant}
+													className="raised-button" />
+														
+						<RaisedButton label="Start Game" 
+													onClick={this.startGame} 
+													className="raised-button" />
 					</form>
-				</Dialog>
 			</div>
 		);
 	}

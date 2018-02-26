@@ -3,6 +3,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ParticipantForm from '../participant-form'
 import GameTypeDropdown from './game-type-dropdown'
 import axios from 'axios';
+import {
+    HashRouter as Router,
+    Route,
+    Link,
+    Redirect
+} from 'react-router-dom';
 
 export default class GameForm extends Component {
 
@@ -11,6 +17,8 @@ export default class GameForm extends Component {
     this.state = {
       selectedGameTypeId: -1,
       allGameTypes: [],
+      redirect: false,
+      error: false
     };
     
     this.handleGameTypeChange = this.handleGameTypeChange.bind(this);
@@ -27,6 +35,7 @@ export default class GameForm extends Component {
       console.log('When mounting the selected type id is..' + this.state.selectedGameTypeId);
     })
     .catch(err => {
+      this.setState({ error: true });
       console.log(err);
     })
   }
@@ -44,6 +53,7 @@ export default class GameForm extends Component {
     })
     .then(results => {
       console.log('successfully initialized game!');
+      this.setState({ redirect: true });
     })
     .catch(err => {
       console.log(err);
@@ -51,20 +61,35 @@ export default class GameForm extends Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      return (
+        <Redirect to={{
+          pathname: "/addPlayer",
+          state: { success: this.state.redirect }
+        }} />
+      )
+    }
     return (
-      <div className="center">
+      <div>
         <h3 className="text-center">New Game</h3>
         <form ref="gameForm">
-          <label htmlFor="selectedGameTypeId" className="label-text">Choose Game Type:</label>
-          <br /> 
-          <GameTypeDropdown
-            handleChange={this.handleGameTypeChange}
-            allGameTypes={this.state.allGameTypes}
-          />
-          <RaisedButton label="Continue" onClick={this.initGame} />
+          <div className="form-container text-center">
+            <label htmlFor="selectedGameTypeId" className="label-text text-center">
+              First, choose a Game Type:
+            </label>
+            <br /> 
+            <GameTypeDropdown
+              handleChange={this.handleGameTypeChange}
+              allGameTypes={this.state.allGameTypes}
+              selectedGameTypeId={this.state.selectedGameTypeId}
+            />
+            <br />
+            <br />
+            <RaisedButton label="Continue" 
+                          fullWidth={true}
+                          onClick={this.initGame} />
+          </div>
         </form>
-        <br />
-        <ParticipantForm />
         <br /> 
       </div>
     );
