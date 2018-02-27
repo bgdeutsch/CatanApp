@@ -4,21 +4,20 @@ import MenuItem from 'material-ui/MenuItem';
 
 export default function GameTypeDropdown(props) {
   return (
-    <SelectField 
+    <select> 
       onChange={props.handleChange}
-      value={props.selectedGameTypeId}
     >
       {
         props.allGameTypes.map(gameType => {
           return (
-            <MenuItem key={gameType.gametypeid} 
-                      value={gameType.gametypeid}
-                      primaryText={gameType.gametype_name}
+            <option key={gameType.gametypeid} 
+                    value={gameType.gametypeid}
             >
-            </MenuItem>
+              {gameType.gametype_name}
+            </option>
           );
         })
       }
-    </SelectField>
+    </select>
   );
 }

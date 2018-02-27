@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PlayerDropdown from './player-dropdown';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
-import { HashRouter as Router, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
-export default class ParticipantForm extends Component {
+export default class ParticipantForm extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -44,7 +42,6 @@ export default class ParticipantForm extends Component {
 
 	handlePlayerChange(event) {
 		this.setState({selectedPlayerId: event.target.value});
-		console.log(event.target.value);
 	}
 
 	addParticipant(event) {
@@ -75,35 +72,36 @@ export default class ParticipantForm extends Component {
 		}
 		return (
 			<div className="text-center">
-					<form ref="participantForm" className="text-center">
-						<label htmlFor="playerID">Choose Player:</label> 
-						<PlayerDropdown
-							handleChange={this.handlePlayerChange}
-							allPlayers={this.state.allPlayers}
-						/>
-						<br />
+				<p>Next, add players.</p>
+				<form ref="participantForm" className="text-center">
+				<label htmlFor="playerID">Choose Player:</label> 
+					<PlayerDropdown
+						handleChange={this.handlePlayerChange}
+						allPlayers={this.state.allPlayers}
+					/>
+				<br />
 
-						<label htmlFor="placementOrder">Placement Order:</label>
-						<select onChange={this.handlePlacementOrderChange}>
-							{
-								this.state.placementOrderArray.map(index => {
-									return (
-										<option key={index} value={index}>{index}</option>
-									);
-								})
-							}
-						</select>
+				<label htmlFor="placementOrder">Placement Order:</label>
+					<select onChange={this.handlePlacementOrderChange}>
+						{
+							this.state.placementOrderArray.map(index => {
+								return (
+									<option key={index} value={index}>{index}</option>
+								);
+							})
+						}
+					</select>
 
-						<br />
-						<br />
-						<RaisedButton label="Add Player" 
-													onClick={this.addParticipant}
-													className="raised-button" />
+					<br />
+					<br />
+					<RaisedButton label="Add Player" 
+												onClick={this.addParticipant}
+												className="raised-button" />
 														
-						<RaisedButton label="Start Game" 
-													onClick={this.startGame} 
-													className="raised-button" />
-					</form>
+					<RaisedButton label="Next" 
+												onClick={this.startGame} 
+												className="raised-button" />
+				</form>
 			</div>
 		);
 	}
