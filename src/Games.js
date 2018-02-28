@@ -8,7 +8,7 @@ class Games extends Component {
   constructor() {
     super();
     this.state = {
-      games: [],
+      games: []
     };
 
     this.trimDateTime = this.trimDateTime.bind(this)
@@ -17,7 +17,8 @@ class Games extends Component {
 componentDidMount() {
   axios.get('http://localhost:3000/api/games/')
     .then(results => {
-      this.setState({ games: results.data })
+      this.setState({ games: results.data });
+      console.log(results.data)
     })
     .catch(err => {
       console.log(err);

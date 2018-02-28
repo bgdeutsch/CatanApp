@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayerDropdown from './player-dropdown';
+import CurrentGamePlayers from './current-game-players';
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
@@ -10,7 +11,9 @@ export default class ParticipantForm extends React.Component {
 		super(props);
 		this.state = {
 			selectedPlayerId: -1,
+			selectedPlayerName: '',
 			allPlayers: [],
+			currentGamePlayers: [],
 			placementOrder: -1,
 			placementOrderArray: [1, 2, 3, 4, 5, 6],
 			open: false,
@@ -28,6 +31,7 @@ export default class ParticipantForm extends React.Component {
       this.setState({
         allPlayers: results.data,
         selectedPlayerId: results.data[0].playerid,
+				selectedPlayerName: results.data[0].name,
 				placementOrder: 1
       })
     })
@@ -41,20 +45,27 @@ export default class ParticipantForm extends React.Component {
 	}
 
 	handlePlayerChange(event) {
-		this.setState({selectedPlayerId: event.target.value});
+		this.setState({
+			selectedPlayerId: event.target.value,
+			selectedPlayerName: event.target.selectedOptions[0].text
+		});
 	}
 
 	addParticipant(event) {
 		event.preventDefault();
 		let playerID = this.state.selectedPlayerId;
 		let placementOrder = this.state.placementOrder;
+		let selectedPlayerName = this.state.selectedPlayerName;
+		let currentGamePlayers = this.state.currentGamePlayers.slice();
+		
 
 		axios.post('http://localhost:3000/api/addParticipant/', {
       playerid: playerID,
 			placement_order: placementOrder
     })
     .then(results => {
-      console.log('successfully added player!');
+			currentGamePlayers.push(selectedPlayerName)
+			this.setState({ currentGamePlayers: currentGamePlayers })
     })
     .catch(err => {
       console.log(err);
@@ -72,6 +83,7 @@ export default class ParticipantForm extends React.Component {
 		}
 		return (
 			<div className="text-center">
+				<CurrentGamePlayers allCurrentPlayers={this.state.currentGamePlayers}/>
 				<p>Next, add players.</p>
 				<form ref="participantForm" className="text-center">
 				<label htmlFor="playerID">Choose Player:</label> 
