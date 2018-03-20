@@ -15,4 +15,11 @@ body {
 	margin-top: 15px;
 }
 
+@media only screen and (max-width: 768px) {
+	.container {
+		width: 96%;
+		margin: 0 auto;
+	}
+}
+
 
