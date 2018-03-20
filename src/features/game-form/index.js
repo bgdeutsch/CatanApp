@@ -1,96 +1,70 @@
-import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import ParticipantForm from '../participant-form'
-import GameTypeDropdown from './game-type-dropdown'
+import React from 'react';
 import axios from 'axios';
+import GameTypeForm from '../game-type-form';
 import {
-    HashRouter as Router,
-    Route,
-    Link,
-    Redirect
-} from 'react-router-dom';
+  Step,
+  Stepper,
+  StepLabel,
+  StepContent,
+} from 'material-ui/Stepper';
 
-export default class GameForm extends Component {
+export default class GameForm extends React.Component {
+	
+	constructor() {
+		super();
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedGameTypeId: -1,
-      allGameTypes: [],
-      redirect: false,
-      error: false
-    };
-    
-    this.handleGameTypeChange = this.handleGameTypeChange.bind(this);
-    this.initGame = this.initGame.bind(this);
-  }
+		this.state = {
+			finished: false,
+    	stepIndex: 0,
+			allGameTypes: []
+		};
+	};
 
-  componentDidMount() {
-    axios.get('http://localhost:3000/api/gametypes/')
-    .then(results => {
-      this.setState({
-        allGameTypes: results.data,
-        selectedGameTypeId: results.data[0].gametypeid,
-      })
-      console.log('When mounting the selected type id is..' + this.state.selectedGameTypeId);
-    })
-    .catch(err => {
-      this.setState({ error: true });
-      console.log(err);
-    })
-  }
+	componentDidMount() {
+		axios.get('http://localhost:3000/api/gameTypes')
+			.then(response => {
+				this.setState({
+					allGameTypes: response.data,
+					selectedGameTypeID: response.data[0].gametype_id
+				});
+			})
+			.catch(error => {
+				console.log(error);
+		});
+	}
 
-  handleGameTypeChange(event) {
-    this.setState({selectedGameTypeId: event.target.value});
-  }
+	handleNext = () => {
+    const {stepIndex} = this.state;
 
-  initGame(event) {
-    event.preventDefault();
-    let gameTypeId = this.state.selectedGameTypeId;
+		if (stepIndex === 0) {
+			console.log("clicked step 1 - choose game type");
+		}else if (stepIndex === 1) {
+			console.log("clicked step 2 - add players")
+		}
+		else {
+			console.log("completing game");
+		}
 
-    axios.post('http://localhost:3000/api/initGame/', {
-      gametypeid: gameTypeId
-    })
-    .then(results => {
-      console.log('successfully initialized game!');
-      this.setState({ redirect: true });
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }
+    this.setState({
+      stepIndex: stepIndex + 1,
+      finished: stepIndex >= 2,
+    });
+  };
 
-  render() {
-    if (this.state.redirect) {
-      return (
-        <Redirect to={{
-          pathname: "/addPlayer",
-          state: { success: this.state.redirect }
-        }} />
-      )
-    }
+	render() {
     return (
-      <div>
-        <h3 className="text-center">New Game</h3>
-        <form ref="gameForm">
-          <div className="form-container text-center">
-            <label htmlFor="selectedGameTypeId" className="label-text text-center">
-              First, choose a Game Type:
-            </label>
-            <br /> 
-            <GameTypeDropdown
-              handleChange={this.handleGameTypeChange}
-              allGameTypes={this.state.allGameTypes}
-              selectedGameTypeId={this.state.selectedGameTypeId}
-            />
-            <br />
-            <br />
-            <RaisedButton label="Continue" 
-                          fullWidth={true}
-                          onClick={this.initGame} />
-          </div>
-        </form>
-        <br /> 
+      <div style={{maxWidth: 380, maxHeight: 400, margin: 'auto'}}>
+				<Stepper activeStep={this.state.stepIndex} orientation="vertical">
+					<Step>
+						<StepLabel>Choose Game Type:</StepLabel>
+						<StepContent>
+							<GameTypeForm allGameTypes={this.state.allGameTypes} />
+						</StepContent>
+						<button label="Next" onClick={this.handleNext}>
+							Next
+						</button>
+					</Step>
+				</Stepper>
       </div>
     );
   }

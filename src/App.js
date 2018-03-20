@@ -1,36 +1,37 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
-import './Header.css';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Games from './Games';
-import Header from './Header';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Header from './features/header';
+import RecentGames from './features/recent-games';
+import PlayerStats from './features/player-stats';
 import GameForm from './features/game-form';
-import ParticipantForm from './features/participant-form';
-import {
-    HashRouter as Router,
-    Route,
-    Link
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-class App extends Component {
 
-  constructor() {
-    super();
-  }
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: '#a91e20',
+  },
+});
+
+class App extends React.Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <Header />
-        <br />
-        <Games />
-        <br />
+      <MuiThemeProvider muiTheme={muiTheme}>
         <Router>
-          <div className="center">
-            <Route path="/" component={GameForm} />
-            <Route path="/addPlayer" component={ParticipantForm} />
+          <div>
+            <Header />
+            <div className='container'>
+              <Route exact path='/' component={ RecentGames } />
+              <Route exact path='/playerStats' component={ PlayerStats } />
+              <Route exact path='/games/new' component={ GameForm } />
+            </div>
           </div>
         </Router>
+        
+
       </MuiThemeProvider>
     );
   }
