@@ -6,6 +6,7 @@ import Header from './features/header';
 import RecentGames from './features/recent-games';
 import PlayerStats from './features/player-stats';
 import GameForm from './features/game-form';
+import Game from './features/game';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
@@ -26,12 +27,11 @@ class App extends React.Component {
             <div className='container'>
               <Route exact path='/' component={ RecentGames } />
               <Route exact path='/playerStats' component={ PlayerStats } />
-              <Route exact path='/games/new' component={ GameForm } />
+              <Route exact path='/new' component={ GameForm } />
+              <Route path='/games/:id' component={ Game } />
             </div>
           </div>
         </Router>
-        
-
       </MuiThemeProvider>
     );
   }

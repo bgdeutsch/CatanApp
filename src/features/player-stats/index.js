@@ -9,12 +9,11 @@ export default class PlayerStats extends React.Component {
 		}
 	}
 
-
-		render() {
-			return (
-				<div>
-					<p>Stat Board here</p>
-				</div>
-			)
-		}
+	render() {
+		return (
+			<div>
+				<p>Stat Board here</p>
+			</div>
+		)
 	}
+}
