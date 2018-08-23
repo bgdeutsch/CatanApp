@@ -32,10 +32,6 @@ export default function NavigationMenu() {
 					primaryText="Stats"
 					containerElement={<Link to="/playerStats" />}
 				/>
-				<MenuItem 
-					primaryText="New Game"
-					containerElement={<Link to="/new" />}
-				/>
 			</IconMenu>
 		</div>
 	)

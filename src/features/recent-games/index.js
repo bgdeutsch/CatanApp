@@ -7,7 +7,7 @@ export default class RecentGames extends React.Component {
 		super();
 
 		this.state = {
-			recentGamesArray: [],
+			recentGamesArray: []
 		}
 	}
 
