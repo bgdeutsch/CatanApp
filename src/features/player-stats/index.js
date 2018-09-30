@@ -7,11 +7,14 @@ export default class PlayerStats extends React.Component {
 		super();
 
 		this.state = {
-			allPlayersArray: []
+			allPlayersArray: [],
+			selectedPlayer: -1
 		}
+		
+		this.handlePlayerDropdownChange = this.handlePlayerDropdownChange.bind(this);
 	}
 
-		componentDidMount() {
+	componentDidMount() {
 		const baseURL = 'http://localhost:3000/api/';
 
 		axios.get(baseURL + 'players')
@@ -23,10 +26,17 @@ export default class PlayerStats extends React.Component {
 			})
 		}
 
+	handlePlayerDropdownChange = event => {
+		this.setState({ selectedPlayer: event.target.value })
+		console.log('test' + event.target.value)
+	}
+
 	render() {
 		return (
 			<div>
-				<PlayerDropdown allPlayers={this.state.allPlayersArray} />
+				<PlayerDropdown allPlayers={this.state.allPlayersArray}
+				 								selectedPlayer={this.state.selectedPlayer} 
+												onChange={this.state.handlePlayerDropdownChange} />
 			</div>
 		)
 	}
