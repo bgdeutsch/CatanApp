@@ -1,8 +1,8 @@
 import React from 'react';
-import RecentGamesTable from './recent-games-table';
+import ScoreboardTable from './scoreboard-table';
 import axios from 'axios';
 
-export default class RecentGames extends React.Component {
+export default class Scoreboard extends React.Component {
 	constructor() {
 		super();
 
@@ -12,9 +12,9 @@ export default class RecentGames extends React.Component {
 	}
 
 	componentDidMount() {
-		const baseURL = 'http://localhost:3000/api/games/';
+		const baseURL = 'http://localhost:3000/';
 
-		axios.get(baseURL + 'recentGames')
+		axios.get(baseURL)
 			.then(results => {
 				this.setState({ recentGamesArray: results.data });
 			})
@@ -26,7 +26,7 @@ export default class RecentGames extends React.Component {
 		render() {
 			return (
 				<div className="margin-top">
-					<RecentGamesTable recentGames={this.state.recentGamesArray} />
+					<ScoreboardTable recentGames={this.state.recentGamesArray} />
 				</div>
 			)
 		}

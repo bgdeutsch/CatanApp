@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>game_details</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="if___Right_1904671" transform="translate(1.000000, 1.000000)">
+            <circle id="Oval" stroke="#A72025" fill="#A72025" cx="20" cy="20" r="20"></circle>
+            <path d="M17.8515333,11.2125 C17.4821461,10.8683014 16.9065211,10.8784577 16.549506,11.2354728 C16.1924909,11.5924878 16.1823347,12.1681128 16.5265333,12.5375 L23.9890333,20 L16.5265333,27.4625 C16.2757168,27.6962132 16.1724718,28.0481944 16.2573013,28.3803611 C16.3421309,28.7125278 16.6015054,28.9719024 16.9336721,29.0567319 C17.2658388,29.1415615 17.6178201,29.0383165 17.8515333,28.7875 L25.9765333,20.6625 C26.3421,20.2964781 26.3421,19.7035219 25.9765333,19.3375 L17.8515333,11.2125 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

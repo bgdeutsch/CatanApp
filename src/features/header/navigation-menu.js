@@ -28,10 +28,10 @@ export default function NavigationMenu() {
 					primaryText="Home"
 					containerElement={<Link to="/" />}
 				/>
-				<MenuItem 
-					primaryText="Stats"
-					containerElement={<Link to="/playerStats" />}
-				/>
+				{/*<MenuItem 
+					primaryText="Add New Game"
+					containerElement={<Link to="/newGame" />}
+				/>*/}
 			</IconMenu>
 		</div>
 	)

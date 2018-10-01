@@ -3,10 +3,9 @@ import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Header from './features/header';
-import RecentGames from './features/recent-games';
+import Scoreboard from './features/scoreboard';
 import PlayerStats from './features/player-stats';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -15,7 +14,6 @@ const muiTheme = getMuiTheme({
 });
 
 class App extends React.Component {
-
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
@@ -23,7 +21,8 @@ class App extends React.Component {
           <div>
             <Header />
             <div className='container'>
-              <Route exact path='/' component={ RecentGames } />
+              <Route exact path='/' component={ Scoreboard } />
+              {/*<Route exact path='newGame' component={ GameForm } />*/}
               <Route exact path='/playerStats' component={ PlayerStats } />
             </div>
           </div>
