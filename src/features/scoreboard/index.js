@@ -26,7 +26,7 @@ export default class Scoreboard extends React.Component {
 		render() {
 			return (
 				<div className="margin-top">
-					<ScoreboardTable recentGames={this.state.recentGamesArray} />
+					<ScoreboardTable recentGames={ this.state.recentGamesArray } />
 				</div>
 			)
 		}

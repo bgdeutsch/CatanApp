@@ -1,12 +1,8 @@
 import React from 'react';
 import next from '../../next.svg'
+import { trimDateTime } from '../../helpers';
 
 export default function ScoreboardTable(props) {
-
-	let trimDateTime = (string) => {
-		return string.substring(0, string.indexOf('T'));
-	}
-
 	return (
 		props.recentGames.map(game => {
 			return (
@@ -19,7 +15,9 @@ export default function ScoreboardTable(props) {
 						</span>
 					</div>
 					<div>
-						<img src={next} alt='Game Details' />
+						<a href={'/game/' + game.game_id}>
+							<img className='margin-top' src={next} alt='Game Details' />
+						</a>
 					</div>
 				</div>
 			)

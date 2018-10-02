@@ -19,8 +19,12 @@ body {
 	justify-content: space-between;
 }
 
-.score-container img {
-	margin-top: 15px;
+.game-details {
+	background: white;
+	border-radius: 5px;
+	padding: 17px;
+	margin-top: 10px;
+	line-height: 1.5;
 }
 
 .text-secondary {
@@ -34,6 +38,14 @@ body {
 
 .margin-top {
 	margin-top: 15px;
+}
+
+.display-none {
+	display: none;
+	}
+
+.display-block {
+	display: block;
 }
 
 @media only screen and (max-width: 768px) {
