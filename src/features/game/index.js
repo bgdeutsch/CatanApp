@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import GameDetails from './game-details';
+import ParticipantDetails from './participant-details'
 import { isJavaScriptObjectEmpty } from '../../helpers';
 
 export default class Game extends React.Component {
@@ -8,29 +9,36 @@ export default class Game extends React.Component {
 		super();
 
 		this.state = {
-			gameDetailsObject: {}
+			gameDetail: {},
+			gameParticipantDetail: []
 		}
 	}
 
-	componentDidMount() {
-		let URL = 'http://localhost:3000/game/' + this.props.match.params.id;
-		
-		axios.get(URL)
-			.then(results => {
-				this.setState({ gameDetailsObject: results.data[0] })
-			})
-			.catch(err => {
-				console.log(err);
-			})
+	async componentDidMount() {
+		const baseURL = 'http://localhost:3000/game/' + this.props.match.params.id;
+
+		axios.all([axios.get(baseURL), axios.get(baseURL + '/participants')])
+			.then(axios.spread((gameDetail, gameParticipantDetail) => {  
+         this.setState({ 
+					 gameDetail: gameDetail.data[0],
+					 gameParticipantDetail: gameParticipantDetail.data
+				 })
+     }))
+		 .catch(err => {
+			 console.log(err);
+		 })
 	}
 
 	render() {
 		//	ensure state is ready before rendering table.
-		if (isJavaScriptObjectEmpty(this.state.gameDetailsObject)) {
+		if (isJavaScriptObjectEmpty(this.state.gameDetail) || isJavaScriptObjectEmpty(this.state.gameParticipantDetail)) {
 			return null;
 		} else {
 			return (
-				<GameDetails gameDetailsObject={ this.state.gameDetailsObject } />
+				<div>
+					<GameDetails gameDetailsObject={ this.state.gameDetail } />
+					<ParticipantDetails participantDetail={ this.state.gameParticipantDetail } />
+				</div>
 			)
 		}
 	}
