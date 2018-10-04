@@ -37,6 +37,7 @@ export default class Game extends React.Component {
 			return (
 				<div>
 					<GameDetails gameDetailsObject={ this.state.gameDetail } />
+					<br />
 					<ParticipantDetails participantDetail={ this.state.gameParticipantDetail } />
 				</div>
 			)
