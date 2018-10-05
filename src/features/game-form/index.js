@@ -1,17 +1,17 @@
 import React from 'react';
+import GameTypeDropdown from '../game/game-type-dropdown';
 
 export default class GameForm extends React.Component {
 	constructor() {
 		super();
 
-		this.state = {};
+		this.state = {
+		};
 	}
 
 	render() {
 		return (
-			<div>
-				<p>Game Form here.</p>
-			</div>
+			<GameTypeDropdown />
 		)
 	}
 }

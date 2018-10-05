@@ -5,7 +5,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Header from './features/header';
 import Scoreboard from './features/scoreboard';
 import GameDetails from './features/game';
-import PlayerStats from './features/player-stats';
+import GameForm from './features/game-form';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const muiTheme = getMuiTheme({
@@ -24,8 +24,7 @@ class App extends React.Component {
             <div className='container'>
               <Route exact path='/' component={ Scoreboard } />
               <Route exact path='/game/:id' component={ GameDetails } />
-              {/*<Route exact path='newGame' component={ GameForm } />*/}
-              <Route exact path='/playerStats' component={ PlayerStats } />
+              <Route exact path='/game/new' component={ GameForm } />
             </div>
           </div>
         </Router>
