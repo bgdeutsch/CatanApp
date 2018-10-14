@@ -29,6 +29,10 @@ export default class Game extends React.Component {
 		 })
 	}
 
+	renderActiveGame = () => {
+		return !this.state.gameDetail.is_active ? null : <p>Game is active.</p>;
+	}
+
 	render() {
 		//	ensure state is ready before rendering table.
 		if (isJavaScriptObjectEmpty(this.state.gameDetail)) {
@@ -36,6 +40,7 @@ export default class Game extends React.Component {
 		} else {
 			return (
 				<div>
+					{this.renderActiveGame()}
 					<GameDetails gameDetailsObject={this.state.gameDetail} />
 					<br />
 					<ParticipantDetails participantDetail={this.state.gameParticipantDetail} />

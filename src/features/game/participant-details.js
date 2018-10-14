@@ -7,9 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 export default function ParticipantDetails(props) {
 	if (props.participantDetail.length < 1) {
-		return (
-			<span>No players have been added yet.</span>
-		)
+		return null
 	} else {
 		return (
 			<Table>
