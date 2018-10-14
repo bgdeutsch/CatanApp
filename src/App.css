@@ -48,6 +48,14 @@ body {
 	display: block;
 }
 
+.dropdown {
+	width: 20%;
+}
+
+.MuiInput-underline-14:after {
+	border-bottom: 2px solid #a91e20 !important;
+}
+
 @media only screen and (max-width: 768px) {
 	.container {
 		width: 96%;

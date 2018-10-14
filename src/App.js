@@ -17,14 +17,14 @@ const muiTheme = getMuiTheme({
 class App extends React.Component {
   render() {
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
+      <MuiThemeProvider muiTheme={ muiTheme }>
         <Router>
           <div>
             <Header />
             <div className='container'>
               <Route exact path='/' component={ Scoreboard } />
               <Route exact path='/game/:id' component={ GameDetails } />
-              <Route exact path='/game/new' component={ GameForm } />
+              <Route exact path='/create' component={ GameForm } />
             </div>
           </div>
         </Router>

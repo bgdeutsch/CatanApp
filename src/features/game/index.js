@@ -31,14 +31,14 @@ export default class Game extends React.Component {
 
 	render() {
 		//	ensure state is ready before rendering table.
-		if (isJavaScriptObjectEmpty(this.state.gameDetail) || isJavaScriptObjectEmpty(this.state.gameParticipantDetail)) {
+		if (isJavaScriptObjectEmpty(this.state.gameDetail)) {
 			return null;
 		} else {
 			return (
 				<div>
-					<GameDetails gameDetailsObject={ this.state.gameDetail } />
+					<GameDetails gameDetailsObject={this.state.gameDetail} />
 					<br />
-					<ParticipantDetails participantDetail={ this.state.gameParticipantDetail } />
+					<ParticipantDetails participantDetail={this.state.gameParticipantDetail} />
 				</div>
 			)
 		}
