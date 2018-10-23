@@ -49,7 +49,7 @@ body {
 }
 
 .dropdown {
-	width: 20%;
+	min-width: 250px !important;
 }
 
 .MuiInput-underline-14:after {

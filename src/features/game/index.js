@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import GameDetails from './game-details';
 import ParticipantDetails from './participant-details'
+import ParticipantForm from '../participant-form';
 import { isJavaScriptObjectEmpty } from '../../helpers';
 
 export default class Game extends React.Component {
@@ -30,7 +31,7 @@ export default class Game extends React.Component {
 	}
 
 	renderActiveGame = () => {
-		return !this.state.gameDetail.is_active ? null : <p>Game is active.</p>;
+		return !this.state.gameDetail.is_active ? null : <ParticipantForm gameID={this.props.match.params.id} />;
 	}
 
 	render() {
