@@ -1,23 +1,27 @@
 import React from 'react';
 import './App.css';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Header from './features/header';
 import Scoreboard from './features/scoreboard';
 import GameDetails from './features/game';
 import GameForm from './features/game-form';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-const muiTheme = getMuiTheme({
+const theme = createMuiTheme({
   palette: {
-    primary1Color: '#a91e20',
+    primary: {
+      main: '#a91e20',
+    },
+    secondary: {
+      main: '#f7d54c',
+    },
   },
-});
+})
 
 class App extends React.Component {
   render() {
     return (
-      <MuiThemeProvider muiTheme={ muiTheme }>
+      <MuiThemeProvider theme={theme}>
         <Router>
           <div>
             <Header />

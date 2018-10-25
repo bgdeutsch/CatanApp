@@ -1,15 +1,16 @@
 import React from 'react';
 import GameTypeDropdown from './game-type-dropdown';
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
 
-export default class GameForm extends React.Component {
+class GameForm extends React.Component {
 	constructor() {
 		super();
 
-		this.state = {
-			gameTypes: [],
-			selectedGameType: 1 	// Base game
-		};
+			this.state = {
+				gameTypes: [],
+				selectedGameType: 1 	// Base game
+			};
 	}
 
 	componentDidMount() {
@@ -68,9 +69,13 @@ export default class GameForm extends React.Component {
 						selectedGameType={selectedGameType}
 						handleChange={this.handleChange}
 					/>
-					<input type="submit" value="Next" />
+					<Button color="primary" variant="contained">
+						Next
+					</Button>
 				</div>
 			</form>
 		)
 	}
 }
+
+export default GameForm;

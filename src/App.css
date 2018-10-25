@@ -3,6 +3,16 @@ body {
 	background-color: #eceaef;
 }
 
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.title {
+	color: gold;
+	margin-left: 25px;
+}
+
 .container {
 	width: 80%;
 	margin: 0 auto;

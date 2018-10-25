@@ -1,19 +1,63 @@
 import React from 'react';
-import AppBar from 'material-ui/AppBar';
-import NavigationMenu from './navigation-menu';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
 
-export default function Header() {
+export default class Header extends React.Component {
+  constructor() {
+    super();
 
-  const titleStyle = {
-    color: 'gold'
+    this.state = {
+      anchorEl: null
+    }
+  }
+  
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
   };
 
-  return (
-    <AppBar title={"Yo, Where We Stuck?"} 
-            titleStyle={titleStyle}
-            showMenuIconButton={false}
-    >
-      <NavigationMenu />
-    </AppBar>
-  );
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  render() {
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+
+    return (
+      <AppBar title={"Yo Where We Stuck?"} position="sticky" color='primary'>
+        <Toolbar>
+          <IconButton color="inherit" aria-label="Menu" onClick={this.handleMenu}>
+            <MenuIcon />
+          </IconButton>
+          <h2 className='title'>Yo Where We Stuck?</h2>
+          <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={open}
+            onClose={this.handleClose}
+          >
+            <MenuItem onClick={this.handleClose}>
+              <Link to="/">Home</Link>
+            </MenuItem>
+            <MenuItem onClick={this.handleClose}>
+              <Link to="/create">Add New Game</Link>
+            </MenuItem>
+          </Menu>
+        </Toolbar>
+      </AppBar>
+    );
+  }
 }
