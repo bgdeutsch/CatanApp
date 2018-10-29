@@ -2,6 +2,8 @@ import React from 'react';
 import GameTypeDropdown from './game-type-dropdown';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
 
 class GameForm extends React.Component {
 	constructor() {
@@ -9,7 +11,8 @@ class GameForm extends React.Component {
 
 			this.state = {
 				gameTypes: [],
-				selectedGameType: 1 	// Base game
+				selectedGameType: 1, 	// Base game
+				notes: ''
 			};
 	}
 
@@ -31,6 +34,10 @@ class GameForm extends React.Component {
 		this.setState({selectedGameType: event.target.value});
 	}
 
+	handleNotesChange = event => {
+		this.setState({notes: event.target.value});
+	}
+
 	handleSubmit = event => {
 		event.preventDefault();
 		this.createGame();
@@ -38,7 +45,8 @@ class GameForm extends React.Component {
 
 	createGame = () => {
 		axios.post('http://localhost:3000/create', {
-			gametypeID: this.state.selectedGameType
+			gametypeID: this.state.selectedGameType,
+			notes: this.state.notes
 		})
 			.then(results => {
 				this.redirectToNewGame();
@@ -61,19 +69,39 @@ class GameForm extends React.Component {
 
 	render() {
 		let selectedGameType = this.state.selectedGameType;
+		const formContainerStyles = {
+			textAlign: 'center'
+		}
+
 		return (
-			<form onSubmit={this.handleSubmit}>
+			<div style={formContainerStyles}>
 				<div className='game-details'>
-					<GameTypeDropdown
-						gameTypes={this.state.gameTypes}
-						selectedGameType={selectedGameType}
-						handleChange={this.handleChange}
-					/>
-					<Button color="primary" variant="contained">
-						Next
-					</Button>
+					<h2>Add a New Game:</h2>
+					<br />
+					<form onSubmit={this.handleSubmit}>
+						<FormControl className='w300' id="gametype_form">
+							<GameTypeDropdown
+								gameTypes={this.state.gameTypes}
+								selectedGameType={selectedGameType}
+								handleChange={this.handleChange}
+							/>
+							<TextField
+								label="Notes"
+								placeholder="Enter game notes here"
+								multiline
+								margin="normal"
+								variant="outlined"
+								value={this.state.notes}
+								onChange={this.handleNotesChange}
+							/>
+							<br />
+							<Button type="submit" color="primary" variant="contained">
+								Next
+							</Button>
+						</FormControl>
+					</form>
 				</div>
-			</form>
+			</div>
 		)
 	}
 }

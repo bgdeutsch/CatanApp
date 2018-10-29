@@ -66,6 +66,10 @@ a {
 	border-bottom: 2px solid #a91e20 !important;
 }
 
+.w300 {
+	min-width: 300px !important;
+}
+
 @media only screen and (max-width: 768px) {
 	.container {
 		width: 96%;

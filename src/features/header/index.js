@@ -6,7 +6,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Link } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
 
 export default class Header extends React.Component {
   constructor() {
@@ -16,7 +15,7 @@ export default class Header extends React.Component {
       anchorEl: null
     }
   }
-  
+
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
