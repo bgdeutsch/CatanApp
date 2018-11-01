@@ -7,6 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 export default class ParticipantForm extends React.Component {
 	constructor(props) {
@@ -15,7 +16,7 @@ export default class ParticipantForm extends React.Component {
 		this.state = {
 			modalOpen: false,
 			allPlayers: [],
-			selectedPlayer: 1,
+			selectedPlayer: -1,
 			VP: 0,
 			placementOrder: 1
 		};
@@ -30,7 +31,7 @@ export default class ParticipantForm extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ modalOpen: false });
+    this.setState({ modalOpen: false, selectedPlayer: -1 });
   };
 
 	handleSubmit = event => {
@@ -41,14 +42,12 @@ export default class ParticipantForm extends React.Component {
 			VP: this.state.VP
 		})
 			.then(results => {
-				console.log('success');
 				this.handleClose();
 				window.location.reload();
 			})
 			.catch(err => {
 				console.log(err);
 			})
-
 	}
 
 	handlePlayerDropdownChange = event => {
@@ -72,7 +71,11 @@ export default class ParticipantForm extends React.Component {
 
 	loadAllPlayers = () => {
 		const URL = 'http://localhost:3000/player/all';
-		axios.get(URL)
+		axios.get(URL, {
+			params: {
+				gameID: this.props.gameID
+			}		
+		})
 			.then(results => {
 				this.setState({allPlayers: results.data});
 			})
@@ -87,15 +90,19 @@ export default class ParticipantForm extends React.Component {
 		let placementOrder = this.state.placementOrder;
 		let VP = this.state.VP;
 		return (
-			<div>
-				<span>This is an active game!</span>
+			<div className='participant-form-container'>
+				<span>
+					<Typography variant="headline">This is an active game!</Typography>
+					<Typography variant="subheading">Add players and click "Complete" to submit a completed Catan game</Typography>
+				</span>
 				<br />
-				<Button onClick={this.handleClickOpen}>Add Player</Button>
-				<Button onClick={this.handleCompleteGame}
-								variant="contained" 
-								color="primary">
-							Complete Game!
-				</Button>
+				<br />
+				<span className='actions'>
+					<Button onClick={this.handleClickOpen} variant="outlined">Add Player</Button>
+					<Button onClick={this.handleCompleteGame} variant="contained" color="primary">
+						Complete Game
+					</Button>
+				</span>
 				<Dialog
           open={this.state.modalOpen}
           onClose={this.handleClose}
@@ -127,10 +134,10 @@ export default class ParticipantForm extends React.Component {
 						</form>
 					</DialogContent>
 					<DialogActions>
-            <Button onClick={this.handleClose}>
+            <Button onClick={this.handleClose} variant="outlined">
               Cancel
             </Button>
-            <Button onClick={this.handleSubmit}>
+            <Button onClick={this.handleSubmit} variant="contained" color="primary" disabled={selectedPlayer > 0 ? false : true}>
               Add Player
             </Button>
           </DialogActions>

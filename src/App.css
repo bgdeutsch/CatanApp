@@ -8,6 +8,10 @@ a {
 	color: black;
 }
 
+h3 {
+	margin: 0;
+}
+
 .title {
 	color: gold;
 	margin-left: 25px;
@@ -68,6 +72,18 @@ a {
 
 .w300 {
 	min-width: 300px !important;
+}
+
+.participant-form-container {
+	border: 2px solid black;
+	border-radius: 5px;
+	margin-top: 10px;
+	padding: 7px;
+	text-align: center;
+}
+
+.actions button {
+	margin-left: 11px;
 }
 
 @media only screen and (max-width: 768px) {

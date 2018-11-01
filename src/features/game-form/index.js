@@ -68,10 +68,11 @@ class GameForm extends React.Component {
 	}
 
 	render() {
-		let selectedGameType = this.state.selectedGameType;
 		const formContainerStyles = {
 			textAlign: 'center'
 		}
+
+		let selectedGameType = this.state.selectedGameType;
 
 		return (
 			<div style={formContainerStyles}>
@@ -85,12 +86,11 @@ class GameForm extends React.Component {
 								selectedGameType={selectedGameType}
 								handleChange={this.handleChange}
 							/>
+							<br />
 							<TextField
 								label="Notes"
-								placeholder="Enter game notes here"
 								multiline
 								margin="normal"
-								variant="outlined"
 								value={this.state.notes}
 								onChange={this.handleNotesChange}
 							/>
