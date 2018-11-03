@@ -82,6 +82,10 @@ h3 {
 	text-align: center;
 }
 
+.text-center {
+	text-align: center;
+}
+
 .actions button {
 	margin-left: 11px;
 }
