@@ -1,6 +1,7 @@
 import React from 'react';
 import ScoreboardTable from './scoreboard-table';
 import axios from 'axios';
+import { API_URL } from '../../helpers';
 
 export default class Scoreboard extends React.Component {
 	constructor() {
@@ -12,7 +13,7 @@ export default class Scoreboard extends React.Component {
 	}
 
 	componentDidMount() {
-		const baseURL = 'http://localhost:3000/';
+		const baseURL = API_URL();
 
 		axios.get(baseURL)
 			.then(results => {

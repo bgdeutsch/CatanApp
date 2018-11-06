@@ -5,6 +5,9 @@ import Button from '@material-ui/core/Button';
 import ExistingGame from './existing-game';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
+import { API_URL } from '../../helpers';
+
+const baseURL = API_URL();
 
 class GameForm extends React.Component {
 	constructor() {
@@ -23,7 +26,7 @@ class GameForm extends React.Component {
 	};
 
 	existingActiveGameCheck() {
-		axios.get('http://localhost:3000/activegame')
+		axios.get(baseURL + 'activegame')
 			.then(results => {
 				if (results.data.length < 1) {
 					this.loadGameTypes();
@@ -38,7 +41,7 @@ class GameForm extends React.Component {
 	}
 
 	loadGameTypes = () => {
-		axios.get('http://localhost:3000/gametypes')
+		axios.get(baseURL + 'gametypes')
 			.then(results => {
 				this.setState({gameTypes: results.data});
 			})
@@ -61,7 +64,7 @@ class GameForm extends React.Component {
 	}
 
 	createGame = () => {
-		axios.post('http://localhost:3000/create', {
+		axios.post(baseURL + 'create', {
 			gametypeID: this.state.selectedGameType,
 			notes: this.state.notes
 		})
@@ -74,7 +77,7 @@ class GameForm extends React.Component {
 	}
 
 	redirectToNewGame = () => {
-		axios.get('http://localhost:3000/currentgame')
+		axios.get(baseURL + 'currentgame')
 			.then(results => {
 				let newGameRoute = '/game/' + results.data[0].game_id;
 				this.props.history.push(newGameRoute);

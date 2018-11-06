@@ -6,8 +6,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import { API_URL } from '../../helpers';
+
+const baseURL = API_URL();
 
 export default class ParticipantForm extends React.Component {
 	constructor(props) {
@@ -36,7 +40,7 @@ export default class ParticipantForm extends React.Component {
 
 	handleSubmit = event => {
 		event.preventDefault();
-		axios.post('http://localhost:3000/create/participant', {
+		axios.post(baseURL + 'create/participant', {
 			playerID: this.state.selectedPlayer,
 			placementOrder: this.state.placementOrder,
 			VP: this.state.VP
@@ -59,7 +63,7 @@ export default class ParticipantForm extends React.Component {
 	}
 
 	handleCompleteGame = event => {
-		let URL = 'http://localhost:3000/game/' + this.props.gameID;
+		let URL = baseURL + 'game/' + this.props.gameID;
 		axios.put(URL)
 			.then(results => {
 				window.location.reload();
@@ -70,7 +74,7 @@ export default class ParticipantForm extends React.Component {
 	}
 
 	loadAllPlayers = () => {
-		const URL = 'http://localhost:3000/player/all';
+		const URL = baseURL + 'player/all';
 		axios.get(URL, {
 			params: {
 				gameID: this.props.gameID
@@ -90,59 +94,62 @@ export default class ParticipantForm extends React.Component {
 		let placementOrder = this.state.placementOrder;
 		let VP = this.state.VP;
 		return (
-			<div className='participant-form-container'>
-				<span>
-					<Typography variant="headline">This is an active game!</Typography>
-					<Typography variant="subheading">Add players and click "Complete" to submit a completed Catan game</Typography>
-				</span>
-				<br />
-				<br />
-				<span className='actions'>
-					<Button onClick={this.handleClickOpen} variant="outlined">Add Player</Button>
-					<Button onClick={this.handleCompleteGame} variant="contained" color="primary">
-						Complete Game
-					</Button>
-				</span>
-				<Dialog
-          open={this.state.modalOpen}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-					<DialogTitle>Add Player to the Game</DialogTitle>
-					<DialogContent>
-						<form>
-							<PlayerDropdown 
-								allPlayers={allPlayers}
-								handleChange={this.handlePlayerDropdownChange}
-								selectedPlayer={selectedPlayer}
-							/>
-							<TextField
-								name="placementOrder"
-								label="Placement Order"
-								value={placementOrder}
-								onChange={this.handleNumberInputChange}
-								margin="normal"
-							/>
-							<br />
-							<TextField
-								name="VP"
-								label="VP"
-								value={VP}
-								onChange={this.handleNumberInputChange}
-								margin="normal"
-							/>
-						</form>
-					</DialogContent>
-					<DialogActions>
-            <Button onClick={this.handleClose} variant="outlined">
-              Cancel
-            </Button>
-            <Button onClick={this.handleSubmit} variant="contained" color="primary" disabled={selectedPlayer > 0 ? false : true}>
-              Add Player
-            </Button>
-          </DialogActions>
-				</Dialog>
-			</div>
+			<Paper>
+				<div className='participant-form-container'>
+					<span>
+						<Typography variant="headline">This is an active game!</Typography>
+						<br />
+						<Typography variant="subheading">Add players and click "Complete" after settling.</Typography>
+					</span>
+					<br />
+					<br />
+					<span className='actions'>
+						<Button onClick={this.handleClickOpen} variant="outlined">Add Player</Button>
+						<Button onClick={this.handleCompleteGame} variant="contained" color="primary">
+							Complete Game
+						</Button>
+					</span>
+					<Dialog
+						open={this.state.modalOpen}
+						onClose={this.handleClose}
+						aria-labelledby="form-dialog-title"
+					>
+						<DialogTitle>Add Player to the Game</DialogTitle>
+						<DialogContent>
+							<form>
+								<PlayerDropdown 
+									allPlayers={allPlayers}
+									handleChange={this.handlePlayerDropdownChange}
+									selectedPlayer={selectedPlayer}
+								/>
+								<TextField
+									name="placementOrder"
+									label="Placement Order"
+									value={placementOrder}
+									onChange={this.handleNumberInputChange}
+									margin="normal"
+								/>
+								<br />
+								<TextField
+									name="VP"
+									label="VP"
+									value={VP}
+									onChange={this.handleNumberInputChange}
+									margin="normal"
+								/>
+							</form>
+						</DialogContent>
+						<DialogActions>
+							<Button onClick={this.handleClose} variant="outlined">
+								Cancel
+							</Button>
+							<Button onClick={this.handleSubmit} variant="contained" color="primary" disabled={selectedPlayer > 0 ? false : true}>
+								Add Player
+							</Button>
+						</DialogActions>
+					</Dialog>
+				</div>
+			</Paper>
 		)
 	}
 }

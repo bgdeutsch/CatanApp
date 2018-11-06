@@ -45,6 +45,11 @@ h3 {
 	color: #b2b2b2;
 }
 
+.active-href {
+	color: #a91e20;
+	text-decoration: underline;
+}
+
 .text-highlight {
 	font-weight: 800;
 	font-size: 18px;
@@ -75,7 +80,6 @@ h3 {
 }
 
 .participant-form-container {
-	border: 2px solid black;
 	border-radius: 5px;
 	margin-top: 10px;
 	padding: 7px;

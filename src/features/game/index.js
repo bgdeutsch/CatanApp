@@ -3,7 +3,7 @@ import axios from 'axios';
 import GameDetails from './game-details';
 import ParticipantDetails from './participant-details'
 import ParticipantForm from '../participant-form';
-import { isJavaScriptObjectEmpty } from '../../helpers';
+import { isJavaScriptObjectEmpty, API_URL } from '../../helpers';
 
 export default class Game extends React.Component {
 	constructor() {
@@ -16,7 +16,7 @@ export default class Game extends React.Component {
 	}
 
 	async componentDidMount() {
-		const baseURL = 'http://localhost:3000/game/' + this.props.match.params.id;
+		const baseURL = API_URL() + 'game/' + this.props.match.params.id;
 
 		axios.all([axios.get(baseURL), axios.get(baseURL + '/participants')])
 			.then(axios.spread((gameDetail, gameParticipantDetail) => {  

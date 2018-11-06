@@ -12,6 +12,10 @@ export function isJavaScriptObjectEmpty(object) {
 	return true;
 }
 
+export function API_URL() {
+	return process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'http://where-we-stuck-api.herokuapp.com/';   
+}
+
 export function getTheme() {
 	const theme = createMuiTheme({
 		palette: {
