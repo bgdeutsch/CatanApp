@@ -13,7 +13,6 @@ export function isJavaScriptObjectEmpty(object) {
 }
 
 export function API_URL() {
-	console.log(process.env.NODE_ENV);
 	return process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'http://where-we-stuck-api.herokuapp.com/';   
 }
 
