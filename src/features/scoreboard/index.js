@@ -1,6 +1,7 @@
 import React from 'react';
-import ScoreboardTable from './scoreboard-table';
 import axios from 'axios';
+import ScoreboardTable from './scoreboard-table';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { API_URL } from '../../helpers';
 
 export default class Scoreboard extends React.Component {
@@ -8,7 +9,7 @@ export default class Scoreboard extends React.Component {
 		super();
 
 		this.state = {
-			recentGamesArray: []
+			recentGamesArray: null
 		}
 	}
 
@@ -25,9 +26,15 @@ export default class Scoreboard extends React.Component {
 		}
 
 		render() {
+			const {recentGamesArray} = this.state;
+
+			if (recentGamesArray === null) {
+				return <CircularProgress />
+			}
+
 			return (
 				<div className="margin-top">
-					<ScoreboardTable recentGames={ this.state.recentGamesArray } />
+					<ScoreboardTable recentGames={recentGamesArray} />
 				</div>
 			)
 		}

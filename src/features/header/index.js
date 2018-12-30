@@ -54,6 +54,9 @@ export default class Header extends React.Component {
             <MenuItem onClick={this.handleClose}>
               <Link to="/create">Add New Game</Link>
             </MenuItem>
+            <MenuItem onClick={this.handleClose}>
+              <Link to="/stats">Stats</Link>
+            </MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>

@@ -3,7 +3,8 @@ import axios from 'axios';
 import GameDetails from './game-details';
 import ParticipantDetails from './participant-details'
 import ParticipantForm from '../participant-form';
-import { isJavaScriptObjectEmpty, API_URL } from '../../helpers';
+import {isJavaScriptObjectEmpty, API_URL} from '../../helpers';
+import {CircularProgress} from '@material-ui/core';
 
 export default class Game extends React.Component {
 	constructor() {
@@ -37,16 +38,16 @@ export default class Game extends React.Component {
 	render() {
 		//	ensure state is ready before rendering table.
 		if (isJavaScriptObjectEmpty(this.state.gameDetail)) {
-			return null;
-		} else {
-			return (
-				<div>
-					{this.renderActiveGame()}
-					<GameDetails gameDetailsObject={this.state.gameDetail} />
-					<br />
-					<ParticipantDetails participantDetail={this.state.gameParticipantDetail} />
-				</div>
-			)
-		}
+			return <CircularProgress />
+		} 
+				
+		return (
+			<div>
+				{this.renderActiveGame()}
+				<GameDetails gameDetailsObject={this.state.gameDetail} />
+				<br />
+				<ParticipantDetails participantDetail={this.state.gameParticipantDetail} />
+			</div>
+		)
 	}
 } 

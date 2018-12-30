@@ -79,6 +79,10 @@ h3 {
 	min-width: 300px !important;
 }
 
+.p15 {
+	padding: 15px;
+}
+
 .participant-form-container {
 	border-radius: 5px;
 	margin-top: 10px;

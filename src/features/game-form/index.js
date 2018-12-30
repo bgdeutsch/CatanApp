@@ -1,24 +1,21 @@
 import React from 'react';
-import GameTypeDropdown from './game-type-dropdown';
 import axios from 'axios';
-import Button from '@material-ui/core/Button';
 import ExistingGame from './existing-game';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
+import GameTypeDropdown from '../gametypes';
+import {Button, FormControl, TextField} from '@material-ui/core';
 import { API_URL } from '../../helpers';
-
 const baseURL = API_URL();
 
-class GameForm extends React.Component {
+ export default class GameForm extends React.Component {
 	constructor() {
 		super();
 
-			this.state = {
-				gameTypes: [],
-				selectedGameType: 1, 	// Base game
-				notes: '',
-				activeGameID: -1
-			};
+		this.state = {
+			gameTypes: [],
+			selectedGameType: -1, 	// Base game
+			notes: '',
+			activeGameID: -1
+		};
 	}
 
 	componentDidMount() {
@@ -40,20 +37,6 @@ class GameForm extends React.Component {
 			})
 	}
 
-	loadGameTypes = () => {
-		axios.get(baseURL + 'gametypes')
-			.then(results => {
-				this.setState({gameTypes: results.data});
-			})
-			.catch(err => {
-				console.log(err);
-			})
-	}
-
-	handleChange = event => {
-		this.setState({selectedGameType: event.target.value});
-	}
-
 	handleNotesChange = event => {
 		this.setState({notes: event.target.value});
 	}
@@ -61,6 +44,10 @@ class GameForm extends React.Component {
 	handleSubmit = event => {
 		event.preventDefault();
 		this.createGame();
+	}
+
+	fetchSelectedGameType = gameTypeID => {
+		this.setState({selectedGameType: gameTypeID})
 	}
 
 	createGame = () => {
@@ -88,46 +75,39 @@ class GameForm extends React.Component {
 	}
 
 	render() {
-		let selectedGameType = this.state.selectedGameType;
-		let activeGameID = this.state.activeGameID;
+		const activeGameID = this.state.activeGameID;
+		let submitButtonDisabled = parseInt(this.state.selectedGameType) < 0 ? true : false;
 
 		if (activeGameID > 0) {
 			return (
 				<ExistingGame activeGameID={activeGameID} />
 			)
 		}
-		else {
-			return (
-				<div className='text-center'>
-					<div className='game-details'>
-						<h2>Add a New Game:</h2>
-						<br />
-						<form onSubmit={this.handleSubmit}>
-							<FormControl className='w300' id="gametype_form">
-								<GameTypeDropdown
-									gameTypes={this.state.gameTypes}
-									selectedGameType={selectedGameType}
-									handleChange={this.handleChange}
-								/>
-								<br />
-								<TextField
-									label="Notes"
-									multiline
-									margin="normal"
-									value={this.state.notes}
-									onChange={this.handleNotesChange}
-								/>
-								<br />
-								<Button type="submit" color="primary" variant="contained">
-									Next
-								</Button>
-							</FormControl>
-						</form>
-					</div>
+		
+		return (
+			<div className='text-center'>
+				<div className='game-details'>
+					<h2>Add a New Game:</h2>
+					<br />
+					<form onSubmit={this.handleSubmit}>
+						<FormControl className='w300' id="gametype_form">
+							<GameTypeDropdown origin='gameForm' fetchSelectedGameType={this.fetchSelectedGameType} />
+							<br />
+							<TextField
+								label="Notes"
+								multiline
+								margin="normal"
+								value={this.state.notes}
+								onChange={this.handleNotesChange}
+							/>
+							<br />
+							<Button type="submit" color="primary" variant="contained" disabled={submitButtonDisabled}>
+								Next
+							</Button>
+						</FormControl>
+					</form>
 				</div>
-			)
-		}
+			</div>
+		)
 	}
 }
-
-export default GameForm;

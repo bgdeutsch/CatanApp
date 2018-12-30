@@ -1,15 +1,18 @@
 import React from 'react';
 import PlayerDropdown from './player-dropdown';
 import axios from 'axios';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import { API_URL } from '../../helpers';
+import {
+	Button,
+	CircularProgress,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Paper,
+	TextField,
+	Typography
+} from '@material-ui/core';
 
 const baseURL = API_URL();
 
@@ -19,7 +22,7 @@ export default class ParticipantForm extends React.Component {
 
 		this.state = {
 			modalOpen: false,
-			allPlayers: [],
+			allPlayers: null,
 			selectedPlayer: -1,
 			VP: 0,
 			placementOrder: 1
@@ -75,6 +78,7 @@ export default class ParticipantForm extends React.Component {
 
 	loadAllPlayers = () => {
 		const URL = baseURL + 'player/all';
+
 		axios.get(URL, {
 			params: {
 				gameID: this.props.gameID
@@ -89,10 +93,12 @@ export default class ParticipantForm extends React.Component {
 	}
 
 	render() {
-		let allPlayers = this.state.allPlayers;
-		let selectedPlayer = this.state.selectedPlayer;
-		let placementOrder = this.state.placementOrder;
-		let VP = this.state.VP;
+		const {allPlayers, selectedPlayer, placementOrder, VP} = this.state;
+
+		if (allPlayers === null) {
+			return <CircularProgress />
+		}
+
 		return (
 			<Paper>
 				<div className='participant-form-container'>
