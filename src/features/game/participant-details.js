@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 export default function ParticipantDetails(props) {
-	if (props.participantDetail.length < 1) {
+	if (props.participantData.length < 1) {
 		return null
 	} else {
 		return (
@@ -22,7 +22,7 @@ export default function ParticipantDetails(props) {
 					</TableHead>
 					<TableBody>
 						{
-							props.participantDetail.map(participant => {
+							props.participantData.map(participant => {
 								return (
 									<TableRow key={participant.participant_id}>
 										<TableCell>{participant.player_name}</TableCell>

@@ -1,10 +1,9 @@
-import React from 'react';
-import PlayerDropdown from './player-dropdown';
-import axios from 'axios';
-import { API_URL } from '../../helpers';
+import React from 'react'
+import PlayerDropdown from './player-dropdown'
+import Loading from '../loading'
+import {fetchPlayers, createGameParticipant, completeGame} from '../../utils/api'
 import {
 	Button,
-	CircularProgress,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -12,91 +11,78 @@ import {
 	Paper,
 	TextField,
 	Typography
-} from '@material-ui/core';
-
-const baseURL = API_URL();
+} from '@material-ui/core'
 
 export default class ParticipantForm extends React.Component {
 	constructor(props) {
-		super(props);
+		super(props)
 
 		this.state = {
 			modalOpen: false,
-			allPlayers: null,
-			selectedPlayer: -1,
+			players: null,
+			selectedPlayerID: -1,
 			VP: 0,
-			placementOrder: 1
-		};
+			placementOrder: 1,
+			isLoading: true
+		}
 	}
 
 	componentDidMount() {
-		this.loadAllPlayers();
+		this.fetchPlayersByGame(this.props.gameID)
 	}
 
-	handleClickOpen = () => {
-    this.setState({ modalOpen: true });
+	fetchPlayersByGame(gameID) {
+		fetchPlayers(gameID)
+		.then(players => {
+			this.setState({ players, isLoading: false })
+		})
+		.catch(err => console.warn(err))
+	}
+
+	handleModalOpen = () => {
+    this.setState({ modalOpen: true })
   };
 
-  handleClose = () => {
-    this.setState({ modalOpen: false, selectedPlayer: -1 });
+  handleModalClose = () => {
+    this.setState({ modalOpen: false, selectedPlayerID: -1, VP: 0, placementOrder: 1 })
   };
 
 	handleSubmit = event => {
-		event.preventDefault();
-		axios.post(baseURL + 'create/participant', {
-			playerID: this.state.selectedPlayer,
-			placementOrder: this.state.placementOrder,
-			VP: this.state.VP
-		})
-			.then(results => {
-				this.handleClose();
-				window.location.reload();
+		event.preventDefault()
+		const {selectedPlayerID, placementOrder, VP} = this.state
+		const {gameID} = this.props
+
+		createGameParticipant(selectedPlayerID, placementOrder, VP)
+			.then(() => {
+				this.props.fetchGameData(gameID)
+				this.fetchPlayersByGame(gameID)
+				this.handleModalClose()
 			})
-			.catch(err => {
-				console.log(err);
-			})
+			.catch(err => console.warn(err))
 	}
 
 	handlePlayerDropdownChange = event => {
-		this.setState({selectedPlayer: event.target.value});
+		this.setState({selectedPlayerID: event.target.value})
 	}
 
 	handleNumberInputChange = event => {
-		this.setState({ [event.target.name]: event.target.value });
+		this.setState({ [event.target.name]: event.target.value })
 	}
 
-	handleCompleteGame = event => {
-		let URL = baseURL + 'game/' + this.props.gameID;
-		axios.put(URL)
-			.then(results => {
-				window.location.reload();
+	handleCompleteGame = () => {
+		completeGame(this.props.gameID)
+			.then(() => {
+				this.props.fetchGameData(this.props.gameID)
 			})
-			.catch(err => {
-				console.log(err);
-			})
-	}
-
-	loadAllPlayers = () => {
-		const URL = baseURL + 'player/all';
-
-		axios.get(URL, {
-			params: {
-				gameID: this.props.gameID
-			}		
-		})
-			.then(results => {
-				this.setState({allPlayers: results.data});
-			})
-			.catch(err => {
-				console.log(err);
-			})
+			.catch(err => console.warn(err))
 	}
 
 	render() {
-		const {allPlayers, selectedPlayer, placementOrder, VP} = this.state;
+		const {players, selectedPlayerID, placementOrder, VP, isLoading} = this.state
+		const isSubmitDisabled = selectedPlayerID <= 0
 
-		if (allPlayers === null) {
-			return <CircularProgress />
+		if (isLoading) {
+			return <Loading />
 		}
 
 		return (
@@ -110,23 +96,23 @@ export default class ParticipantForm extends React.Component {
 					<br />
 					<br />
 					<span className='actions'>
-						<Button onClick={this.handleClickOpen} variant="outlined">Add Player</Button>
+						<Button onClick={this.handleModalOpen} variant="outlined">Add Player</Button>
 						<Button onClick={this.handleCompleteGame} variant="contained" color="primary">
 							Complete Game
 						</Button>
 					</span>
 					<Dialog
 						open={this.state.modalOpen}
-						onClose={this.handleClose}
+						onClose={this.handleModalClose}
 						aria-labelledby="form-dialog-title"
 					>
-						<DialogTitle>Add Player to the Game</DialogTitle>
+						<DialogTitle>Add Player</DialogTitle>
 						<DialogContent>
 							<form>
 								<PlayerDropdown 
-									allPlayers={allPlayers}
+									allPlayers={players}
 									handleChange={this.handlePlayerDropdownChange}
-									selectedPlayer={selectedPlayer}
+									selectedPlayer={selectedPlayerID}
 								/>
 								<TextField
 									name="placementOrder"
@@ -146,10 +132,10 @@ export default class ParticipantForm extends React.Component {
 							</form>
 						</DialogContent>
 						<DialogActions>
-							<Button onClick={this.handleClose} variant="outlined">
+							<Button onClick={this.handleModalClose} variant="outlined">
 								Cancel
 							</Button>
-							<Button onClick={this.handleSubmit} variant="contained" color="primary" disabled={selectedPlayer > 0 ? false : true}>
+							<Button onClick={this.handleSubmit} variant="contained" color="primary" disabled={isSubmitDisabled}>
 								Add Player
 							</Button>
 						</DialogActions>

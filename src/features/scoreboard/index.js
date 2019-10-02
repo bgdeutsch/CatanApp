@@ -1,8 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import ScoreboardTable from './scoreboard-table';
 import Loading from '../loading';
-import { API_URL } from '../../helpers';
+import {fetchRecentGames} from '../../utils/api';
 
 export default class Scoreboard extends React.Component {
 	constructor() {
@@ -15,15 +14,13 @@ export default class Scoreboard extends React.Component {
 	}
 
 	componentDidMount() {
-		const baseURL = API_URL();
-
-		axios.get(baseURL)
-		.then(results => {
-			this.setState({ recentGamesArray: results.data, isLoading: false });
-		})
-		.catch(err => {
-			console.log(err);
-		})
+		fetchRecentGames()
+			.then((results) => {
+					this.setState({ recentGamesArray: results, isLoading: false})
+			})
+			.catch((err) => {
+				console.warn(err)
+			})
 	}
 
 	render() {

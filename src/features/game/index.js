@@ -1,53 +1,70 @@
 import React from 'react';
-import axios from 'axios';
+import queryString from 'query-string'
 import GameDetails from './game-details';
 import ParticipantDetails from './participant-details'
 import ParticipantForm from '../participant-form';
-import {isJavaScriptObjectEmpty, API_URL} from '../../helpers';
-import {CircularProgress} from '@material-ui/core';
+import Loading from '../loading';
+import {fetchGame} from '../../utils/api'
+import Error from '../../utils/error'
 
 export default class Game extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props)
 
 		this.state = {
-			gameDetail: {},
-			gameParticipantDetail: []
+			gameData: {},
+			playerData: [],
+			isLoading: true
 		}
+
+		this.fetchGameData = this.fetchGameData.bind(this)
 	}
 
-	async componentDidMount() {
-		const baseURL = API_URL() + 'game/' + this.props.match.params.id;
-
-		axios.all([axios.get(baseURL), axios.get(baseURL + '/participants')])
-			.then(axios.spread((gameDetail, gameParticipantDetail) => {  
-         this.setState({ 
-					 gameDetail: gameDetail.data[0],
-					 gameParticipantDetail: gameParticipantDetail.data
-				 })
-     }))
-		 .catch(err => {
-			 console.log(err);
-		 })
+	componentDidMount() {
+		this.fetchGameData(queryString.parse(this.props.location.search).gid)
 	}
 
-	renderActiveGame = () => {
-		return !this.state.gameDetail.is_active ? null : <ParticipantForm gameID={this.props.match.params.id} />;
+	fetchGameData(gameID) {
+		fetchGame(gameID)
+			.then(data => {
+				this.setState({
+					gameData: data[0],
+					playerData: data[1],
+					isLoading: false
+				})
+			})
+			.catch(err => console.warn(err))
+	}
+
+	renderGameDetail() {
+		return <GameDetails gameData={this.state.gameData[0]} />
+	}
+	
+	renderParticipantForm() {
+		const gameID = queryString.parse(this.props.location.search).gid
+		return <ParticipantForm gameID={gameID} fetchGameData={this.fetchGameData} />	
 	}
 
 	render() {
-		//	ensure state is ready before rendering table.
-		if (isJavaScriptObjectEmpty(this.state.gameDetail)) {
-			return <CircularProgress />
-		} 
-				
+		const { gameData, playerData, isLoading } = this.state;
+		const isActiveGame = gameData[0] && gameData[0].is_active
+
+		if (isLoading) {
+			return (
+				<Loading />
+			)
+		} else if (!gameData.length) {
+			return (
+				<Error />
+			)
+		}
+
 		return (
-			<div>
-				{this.renderActiveGame()}
-				<GameDetails gameDetailsObject={this.state.gameDetail} />
+			<React.Fragment>
+				{isActiveGame ? this.renderParticipantForm() : this.renderGameDetail()}
 				<br />
-				<ParticipantDetails participantDetail={this.state.gameParticipantDetail} />
-			</div>
+				<ParticipantDetails participantData={playerData} />
+			</React.Fragment>
 		)
 	}
 } 

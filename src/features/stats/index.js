@@ -1,57 +1,50 @@
-import React from 'react';
-import axios from 'axios';
-import GameTypeDropdown from '../gametypes';
-import PlayerStats from './player-stats';
-import { API_URL } from '../../helpers';
-import {CircularProgress, Paper, Typography} from '@material-ui/core';
+import React from 'react'
+import GameTypeDropdown from '../gametypes'
+import PlayerStats from './player-stats'
+import Loading from '../loading'
+import {Paper, Typography} from '@material-ui/core'
+import {fetchStats} from '../../utils/api'
 
 export default class Stats extends React.Component {
 	constructor() {
 		super();
 
 		this.state = {
-			selectedGameTypeID: 1,	//	default selection should always be BASE game.
+			selectedGameTypeID: 1,
 			gameTypeStats: null,
 			gameTypeStatsByPlayer: []
 		}
 	}
 
 	componentDidMount() {
-		this.loadStats(this.state.selectedGameTypeID);
+		this.fetchGameTypeStats(this.state.selectedGameTypeID)
 	}
 
-	loadStats = gameTypeID => {
-		// TODO: look into setting up .env e.g. process.env.NODE_ENV;
-		const baseURL = API_URL() + 'stats/gametypes/' + gameTypeID;
-
-		axios.all([axios.get(baseURL), axios.get(baseURL + '/all')])
-			.then(axios.spread((gameTypeStats, gameTypeStatsByPlayer) => {  
-         this.setState({ 
-					 gameTypeStats: gameTypeStats.data,
-					 gameTypeStatsByPlayer: gameTypeStatsByPlayer.data
-				 })
-     }))
-		 .catch(err => {
-			 console.log(err);
-		 })
-	}
-	
 	fetchSelectedGameType = gameTypeID => {
 		const oldSelectedGameTypeID = this.state.selectedGameTypeID;
 
-		console.log('previous game type id= ' + oldSelectedGameTypeID + ', new game type id = ' + gameTypeID);
-
 		if (oldSelectedGameTypeID !== gameTypeID) {
 			this.setState({selectedGameTypeID: gameTypeID});
-			this.loadStats(gameTypeID);
+			this.fetchGameTypeStats(gameTypeID);
 		}	
+	}
+
+	fetchGameTypeStats = gameTypeID => {
+		fetchStats(gameTypeID)
+		.then(stats => {
+			this.setState({
+				gameTypeStats: stats[0],
+				gameTypeStatsByPlayer: stats[1]
+			})
+		})
+		.catch(err => console.warn(err))
 	}
 
 	render() {
 		const {gameTypeStats, gameTypeStatsByPlayer, selectedGameTypeID} = this.state;
 
 		if (gameTypeStats === null || selectedGameTypeID === null) {
-			return <CircularProgress />
+			return <Loading />
 		}
 
 		const gameTypeName = gameTypeStats[0].gametype_name;

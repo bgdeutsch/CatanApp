@@ -1,40 +1,33 @@
-import React from 'react';
-import axios from 'axios';
-import ExistingGame from './existing-game';
-import GameTypeDropdown from '../gametypes';
-import {Button, FormControl, TextField} from '@material-ui/core';
-import { API_URL } from '../../helpers';
-const baseURL = API_URL();
+import React from 'react'
+import ExistingGame from './existing-game'
+import GameTypeDropdown from '../gametypes'
+import {Button, FormControl, TextField} from '@material-ui/core'
+import {createNewGame, getActiveGame} from '../../utils/api'
 
  export default class GameForm extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 
 		this.state = {
 			gameTypes: [],
-			selectedGameType: -1, 	// Base game
+			selectedGameTypeID: -1,
 			notes: '',
 			activeGameID: -1
 		};
 	}
 
 	componentDidMount() {
-		this.existingActiveGameCheck();
+		this.activeGameCheck();
 	};
 
-	existingActiveGameCheck() {
-		axios.get(baseURL + 'activegame')
+	activeGameCheck() {
+		getActiveGame()
 			.then(results => {
-				if (results.data.length < 1) {
-					this.loadGameTypes();
-				}
-				else {
-					this.setState({ activeGameID: results.data[0].game_id });
+				if (results.length) {
+					this.setState({ activeGameID: results[0].game_id })
 				}
 			})
-			.catch(err => {
-				console.log(err);
-			})
+			.catch((err) => console.warn(err))
 	}
 
 	handleNotesChange = event => {
@@ -47,36 +40,24 @@ const baseURL = API_URL();
 	}
 
 	fetchSelectedGameType = gameTypeID => {
-		this.setState({selectedGameType: gameTypeID})
+		this.setState({selectedGameTypeID: gameTypeID})
 	}
 
 	createGame = () => {
-		axios.post(baseURL + 'create', {
-			gametypeID: this.state.selectedGameType,
-			notes: this.state.notes
-		})
-			.then(results => {
-				this.redirectToNewGame();
-			})
-			.catch(err => {
-				console.log(err);
-			})
-	}
+		const {selectedGameTypeID, notes} = this.state
 
-	redirectToNewGame = () => {
-		axios.get(baseURL + 'currentgame')
+		createNewGame(selectedGameTypeID, notes)
 			.then(results => {
-				let newGameRoute = '/game/' + results.data[0].game_id;
-				this.props.history.push(newGameRoute);
+				// const newGameRoute = `game/${results.data.game_id}`
+				const newGameRoute = `game?gid=${results.data.game_id}`
+				this.props.history.push(newGameRoute)
 			})
-			.catch(err => {
-				console.log(err);
-			})
+			.catch(err => console.warn(err))
 	}
 
 	render() {
-		const activeGameID = this.state.activeGameID;
-		let submitButtonDisabled = parseInt(this.state.selectedGameType) < 0 ? true : false;
+		const {activeGameID, notes, selectedGameTypeID} = this.state
+		const submitButtonDisabled = parseInt(selectedGameTypeID, 10) < 0
 
 		if (activeGameID > 0) {
 			return (
@@ -97,7 +78,7 @@ const baseURL = API_URL();
 								label="Notes"
 								multiline
 								margin="normal"
-								value={this.state.notes}
+								value={notes}
 								onChange={this.handleNotesChange}
 							/>
 							<br />
