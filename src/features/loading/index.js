@@ -5,8 +5,10 @@ import { withStyles } from '@material-ui/core';
 // withStyles() is a HOC that will inject a style override prop into LinearProgress
 const StyledLinearProgress = withStyles({
   root: {
+    margin: '0 auto',
     marginTop: '150px',
-    height: 10
+    height: 10,
+    width: '90%'
   }
 })(LinearProgress)
 

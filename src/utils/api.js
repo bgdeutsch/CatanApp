@@ -5,6 +5,7 @@ function GetBaseApiUrl() {
   const devURL = process.env.REACT_APP_DEVELOPMENT_API
   const prodURL = process.env.REACT_APP_PRODUCTION_API
 
+  console.log(prodURL)
   return env === "development" ? devURL : prodURL
 }
 

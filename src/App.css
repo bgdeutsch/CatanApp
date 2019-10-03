@@ -93,6 +93,11 @@ h3 {
 	margin-top: 20px;
 }
 
+.progress {
+	margin: 0 auto;
+	width: 90%;
+}
+
 .participant-form-container {
 	border-radius: 5px;
 	margin-top: 10px;
