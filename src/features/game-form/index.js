@@ -1,5 +1,5 @@
 import React from 'react'
-import ExistingGame from './existing-game'
+import ActiveGame from './active-game'
 import GameTypeDropdown from '../gametypes'
 import {Button, FormControl, TextField} from '@material-ui/core'
 import {createNewGame, getActiveGame} from '../../utils/api'
@@ -61,7 +61,7 @@ import {createNewGame, getActiveGame} from '../../utils/api'
 
 		if (activeGameID > 0) {
 			return (
-				<ExistingGame activeGameID={activeGameID} />
+				<ActiveGame activeGameID={activeGameID} />
 			)
 		}
 		

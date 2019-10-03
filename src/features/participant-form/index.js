@@ -86,7 +86,7 @@ export default class ParticipantForm extends React.Component {
 		}
 
 		return (
-			<Paper>
+			<Paper className='card'>
 				<div className='participant-form-container'>
 					<span>
 						<Typography variant="headline">This is an active game!</Typography>
