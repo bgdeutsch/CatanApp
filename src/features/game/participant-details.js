@@ -11,7 +11,7 @@ export default function ParticipantDetails(props) {
 		return null
 	} else {
 		return (
-			<Paper>
+			<Paper className='card'>
 				<Table>
 					<TableHead>
 						<TableRow>

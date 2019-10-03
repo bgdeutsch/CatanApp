@@ -4,8 +4,8 @@ import {trimDateTime} from '../../utils/helpers';
 
 export default function GameDetails(props) {
 	return (
-		<Paper>
-			<div className='game-details margin-top'>
+		<Paper className='card'>
+			<div className='game-details'>
 				<b>Date:</b> {trimDateTime(props.gameData.creation_time)} <br />
 				<b>Season:</b> {props.gameData.season} <br />
 				<b>Type:</b> {props.gameData.gametype_name} <br />

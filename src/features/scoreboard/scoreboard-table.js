@@ -15,7 +15,8 @@ export default function ScoreboardTable(props) {
 						</span>
 					</div>
 					<div>
-						<a href={'/game/' + game.game_id}>
+						{/* <a href={'/game/' + game.game_id}> */}
+						<a href={`/game?gid=${game.game_id}`}>
 							<img className='margin-top' src={next} alt='Game Details' />
 						</a>
 					</div>
