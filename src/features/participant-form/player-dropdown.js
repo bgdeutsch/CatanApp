@@ -4,12 +4,16 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
+const labelStyles = {
+	top: '-10px',
+	left: '-10px'
+}
 export default function PlayerDropdown(props) {
 	return (
 		<div>
 			<FormControl className='dropdown' variant="filled">
-				<InputLabel>Select Player</InputLabel>
-				<Select value={props.selectedPlayer} onChange={props.handleChange}>
+				<InputLabel style={labelStyles}>Select Player *</InputLabel>
+				<Select value={props.selectedPlayer} onChange={props.handleChange} required>
 					<MenuItem value={-1}><em>(select)</em></MenuItem>
 				{
 					props.allPlayers.map(player => {

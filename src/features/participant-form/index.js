@@ -7,6 +7,7 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
+	DialogContentText,
 	DialogTitle,
 	Paper,
 	TextField,
@@ -106,9 +107,12 @@ export default class ParticipantForm extends React.Component {
 						onClose={this.handleModalClose}
 						aria-labelledby="form-dialog-title"
 					>
-						<DialogTitle>Add Player</DialogTitle>
+						<DialogTitle>Add Setller</DialogTitle>
 						<DialogContent>
-							<form>
+							<DialogContentText>
+								Enter the player, order in which their first settlement was placed, and total victory points for the game.
+							</DialogContentText>
+							<form className='form-dialog'>
 								<PlayerDropdown 
 									allPlayers={players}
 									handleChange={this.handlePlayerDropdownChange}
@@ -120,14 +124,21 @@ export default class ParticipantForm extends React.Component {
 									value={placementOrder}
 									onChange={this.handleNumberInputChange}
 									margin="normal"
+									className="w150"
+									autoComplete="false"
+									type="number"
+									required
 								/>
-								<br />
 								<TextField
 									name="VP"
 									label="VP"
 									value={VP}
 									onChange={this.handleNumberInputChange}
 									margin="normal"
+									className="w150"
+									autoComplete="false"
+									type="number"
+									required
 								/>
 							</form>
 						</DialogContent>
