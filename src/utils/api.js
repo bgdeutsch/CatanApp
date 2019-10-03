@@ -11,7 +11,7 @@ function GetBaseApiUrl() {
 }
 
 export function fetchRecentGames() {
-  const URL = GetBaseApiUrl();
+  const URL = GetBaseApiUrl()
 
   return fetch(URL)
     .then((res) => res.json())
