@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 
 export default function PlayerStats(props) {
 	return (
-		<Paper>
+		<Paper className='card'>
 			<Table>
 				<TableHead>
 					<TableRow>

@@ -53,7 +53,7 @@ export default class Stats extends React.Component {
 
 		return (
 			<div>
-				<Paper className='p15 margin-top'>
+				<Paper className='card'>
 					<GameTypeDropdown origin='statsForm' fetchSelectedGameType={this.fetchSelectedGameType} />
 					<br />
 					<Typography variant="subtitle1" gutterBottom>
