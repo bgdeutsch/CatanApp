@@ -1,6 +1,6 @@
 import React from 'react';
 import GameTypeDropdown from './game-type-dropdown';
-import {fetchGameTypes} from '../../utils/api';
+import { fetchGameTypes } from '../../utils/api';
 
 export default class GameTypes extends React.Component {
 	constructor() {
@@ -14,7 +14,7 @@ export default class GameTypes extends React.Component {
 
 	componentDidMount() {
 		const selectedGameType = this.props.origin === "gameForm" ? -1 : 1;
-		this.setState({selectedGameType: selectedGameType});
+		this.setState({ selectedGameType: selectedGameType });
 		this.loadGameTypes();
 	};
 
@@ -29,7 +29,7 @@ export default class GameTypes extends React.Component {
 	}
 
 	handleChange = event => {
-		this.setState({selectedGameType: event.target.value});
+		this.setState({ selectedGameType: event.target.value });
 		this.props.fetchSelectedGameType(event.target.value);
 	}
 

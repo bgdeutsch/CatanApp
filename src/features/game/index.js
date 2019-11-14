@@ -4,7 +4,7 @@ import GameDetails from './game-details';
 import ParticipantDetails from './participant-details'
 import ParticipantForm from '../participant-form';
 import Loading from '../loading';
-import {fetchGame} from '../../utils/api'
+import { fetchGame } from '../../utils/api'
 import Error from '../../utils/error'
 
 export default class Game extends React.Component {

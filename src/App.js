@@ -31,7 +31,6 @@ class App extends React.Component {
           <Router>
             <React.Fragment>
               <Header />
-              {/* <div className='container'> */}
                 <React.Suspense fallback={<Loading />}>
                   <Switch>
                   <Route exact path='/' component={Scoreboard} />
@@ -41,7 +40,6 @@ class App extends React.Component {
                   <Route render={() => <Error />} />
                   </Switch>
                 </React.Suspense>
-              {/* </div>               */}
             </React.Fragment>
           </Router>
         </MuiThemeProvider>

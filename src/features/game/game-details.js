@@ -1,6 +1,6 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import {trimDateTime} from '../../utils/helpers';
+import { trimDateTime } from '../../utils/helpers';
 
 export default function GameDetails(props) {
 	return (

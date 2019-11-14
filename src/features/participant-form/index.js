@@ -1,7 +1,7 @@
 import React from 'react'
 import PlayerDropdown from './player-dropdown'
 import Loading from '../loading'
-import {fetchPlayers, createGameParticipant, completeGame} from '../../utils/api'
+import { fetchPlayers, createGameParticipant, completeGame } from '../../utils/api'
 import {
 	Button,
 	Dialog,
@@ -50,8 +50,8 @@ export default class ParticipantForm extends React.Component {
 
 	handleSubmit = event => {
 		event.preventDefault()
-		const {selectedPlayerID, placementOrder, VP} = this.state
-		const {gameID} = this.props
+		const { selectedPlayerID, placementOrder, VP } = this.state
+		const { gameID } = this.props
 
 		createGameParticipant(selectedPlayerID, placementOrder, VP)
 			.then(() => {
@@ -63,7 +63,7 @@ export default class ParticipantForm extends React.Component {
 	}
 
 	handlePlayerDropdownChange = event => {
-		this.setState({selectedPlayerID: event.target.value})
+		this.setState({ selectedPlayerID: event.target.value })
 	}
 
 	handleNumberInputChange = event => {

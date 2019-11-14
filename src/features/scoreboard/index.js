@@ -1,7 +1,7 @@
 import React from 'react';
 import ScoreboardTable from './scoreboard-table';
 import Loading from '../loading';
-import {fetchRecentGames} from '../../utils/api';
+import { fetchRecentGames } from '../../utils/api';
 
 export default class Scoreboard extends React.Component {
 	constructor() {
@@ -16,7 +16,7 @@ export default class Scoreboard extends React.Component {
 	componentDidMount() {
 		fetchRecentGames()
 			.then((results) => {
-					this.setState({ recentGamesArray: results, isLoading: false})
+					this.setState({ recentGamesArray: results, isLoading: false })
 			})
 			.catch((err) => {
 				console.warn(err)
@@ -24,7 +24,7 @@ export default class Scoreboard extends React.Component {
 	}
 
 	render() {
-		const {recentGamesArray, isLoading} = this.state;
+		const { recentGamesArray, isLoading } = this.state;
 
 		if (isLoading) {
 			return <Loading />

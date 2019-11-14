@@ -2,8 +2,8 @@ import React from 'react'
 import GameTypeDropdown from '../gametypes'
 import PlayerStats from './player-stats'
 import Loading from '../loading'
-import {Paper, Typography} from '@material-ui/core'
-import {fetchStats} from '../../utils/api'
+import { Paper, Typography } from '@material-ui/core'
+import { fetchStats } from '../../utils/api'
 
 export default class Stats extends React.Component {
 	constructor() {

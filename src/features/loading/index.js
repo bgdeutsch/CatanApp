@@ -31,10 +31,10 @@ export default class Loading extends React.Component {
 
   progress(completed) {
     if (completed > 100) {
-      this.setState({completed: 100})
+      this.setState({ completed: 100 })
     } else {
-      this.setState({completed})
-      const diff = Math.random() * 10
+      this.setState({ completed })
+      const diff = Math.random() * 8
       this.timer = setTimeout(() => this.progress(completed + diff), 500)
     }
   }

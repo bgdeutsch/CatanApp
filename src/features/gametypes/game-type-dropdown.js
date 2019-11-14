@@ -1,5 +1,5 @@
 import React from 'react';
-import {MenuItem, Select} from '@material-ui/core';
+import { MenuItem, Select } from '@material-ui/core';
 
 export default function GameTypeDropdown(props) {
 	const listItemClassName = props.origin === "statsForm" ? "fs130" : "";

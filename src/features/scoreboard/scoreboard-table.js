@@ -1,6 +1,6 @@
 import React from 'react';
 import next from '../../next.svg'
-import {trimDateTime} from '../../utils/helpers';
+import { trimDateTime } from '../../utils/helpers';
 
 export default function ScoreboardTable(props) {
 	return (

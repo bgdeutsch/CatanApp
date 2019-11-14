@@ -1,8 +1,8 @@
 import React from 'react'
 import ActiveGame from './active-game'
 import GameTypeDropdown from '../gametypes'
-import {Button, FormControl, TextField} from '@material-ui/core'
-import {createNewGame, getActiveGame} from '../../utils/api'
+import { Button, FormControl, TextField } from '@material-ui/core'
+import { createNewGame, getActiveGame } from '../../utils/api'
 
  export default class GameForm extends React.Component {
 	constructor(props) {
@@ -31,7 +31,7 @@ import {createNewGame, getActiveGame} from '../../utils/api'
 	}
 
 	handleNotesChange = event => {
-		this.setState({notes: event.target.value});
+		this.setState({ notes: event.target.value });
 	}
 
 	handleSubmit = event => {
@@ -40,7 +40,7 @@ import {createNewGame, getActiveGame} from '../../utils/api'
 	}
 
 	fetchSelectedGameType = gameTypeID => {
-		this.setState({selectedGameTypeID: gameTypeID})
+		this.setState({ selectedGameTypeID: gameTypeID })
 	}
 
 	createGame = () => {
@@ -48,7 +48,6 @@ import {createNewGame, getActiveGame} from '../../utils/api'
 
 		createNewGame(selectedGameTypeID, notes)
 			.then(results => {
-				// const newGameRoute = `game/${results.data.game_id}`
 				const newGameRoute = `game?gid=${results.data.game_id}`
 				this.props.history.push(newGameRoute)
 			})
@@ -56,7 +55,7 @@ import {createNewGame, getActiveGame} from '../../utils/api'
 	}
 
 	render() {
-		const {activeGameID, notes, selectedGameTypeID} = this.state
+		const { activeGameID, notes, selectedGameTypeID } = this.state
 		const submitButtonDisabled = parseInt(selectedGameTypeID, 10) < 0
 
 		if (activeGameID > 0) {
